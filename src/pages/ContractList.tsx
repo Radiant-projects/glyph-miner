@@ -49,9 +49,9 @@ function ContractRow({ num, contract }: { num: number; contract: Contract }) {
   };
 
   return (
-    <Tr bgColor="bg.100">
-      <Td>{num}</Td>
-      <Td>
+    <Tr _hover={{ bg: "whiteAlpha.50" }} transition="background 0.1s">
+      <Td fontSize="sm">{num}</Td>
+      <Td fontSize="sm">
         <ShortId id={location} />
         <IconButton
           display="inline"
@@ -68,11 +68,30 @@ function ContractRow({ num, contract }: { num: number; contract: Contract }) {
           size="xs"
         />
       </Td>
-      <Td isNumeric>
-        {((Number(height) / Number(maxHeight)) * 100).toFixed(2)}%
+      <Td isNumeric fontSize="sm">
+        <Box
+          as="span"
+          px={2}
+          py={0.5}
+          borderRadius="full"
+          fontSize="xs"
+          fontWeight="semibold"
+          bg={
+            Number(height) >= Number(maxHeight) ? "red.900" :
+            (Number(height) / Number(maxHeight)) >= 0.75 ? "yellow.900" :
+            "whiteAlpha.100"
+          }
+          color={
+            Number(height) >= Number(maxHeight) ? "red.200" :
+            (Number(height) / Number(maxHeight)) >= 0.75 ? "yellow.200" :
+            "inherit"
+          }
+        >
+          {((Number(height) / Number(maxHeight)) * 100).toFixed(2)}%
+        </Box>
       </Td>
       <Td isNumeric>
-        <Button onClick={load}>Load</Button>
+        <Button size="xs" onClick={load} variant="outline">Load</Button>
       </Td>
     </Tr>
   );
@@ -97,16 +116,16 @@ export default function ContractList() {
 
   return (
     <>
-      <Box bg="bg.300">
+      <Box bg="bg.300" borderBottom="1px solid" borderBottomColor="whiteAlpha.50">
         <Container maxW="container.lg">
           <Flex
             justifyContent="space-between"
-            h={{ base: "64px", md: "128px" }}
+            h={{ base: "64px", md: "96px" }}
             alignItems="center"
           >
             <Heading
               size={{ base: "md", md: "lg" }}
-              fontWeight="400"
+              fontWeight="500"
               flexGrow={1}
             >
               {contractGroup === undefined
@@ -117,12 +136,16 @@ export default function ContractList() {
               icon={<Icon as={LuRefreshCw} />}
               aria-label="Refresh list"
               display={{ base: "flex", md: "none" }}
+              variant="ghost"
+              size="sm"
             />
             <Button
               as={Link}
               to="/tokens"
               leftIcon={<ArrowBackIcon />}
               display={{ base: "none", md: "flex" }}
+              variant="outline"
+              size="sm"
             >
               Back
             </Button>
@@ -131,18 +154,27 @@ export default function ContractList() {
               as={Link}
               aria-label="Close"
               to="/"
-              ml={4}
+              ml={3}
+              variant="ghost"
+              size="sm"
             />
           </Flex>
         </Container>
       </Box>
 
-      <Container maxW="container.lg" py={8} px={0}>
+      <Container maxW="container.lg" py={6} px={{ base: 2, md: 0 }}>
         {contractGroup && (
-          <Box width="100%" overflowY="auto">
-            <Table sx={{ borderCollapse: "separate", borderSpacing: "0 4px" }}>
+          <Box
+            width="100%"
+            overflowX="auto"
+            bg="bg.100"
+            borderRadius="2xl"
+            border="1px solid"
+            borderColor="whiteAlpha.50"
+          >
+            <Table variant="unstyled" size="sm">
               <Thead>
-                <Tr>
+                <Tr borderBottom="1px solid" borderBottomColor="whiteAlpha.100">
                   <Th>#</Th>
                   <Th>Location</Th>
                   <Th isNumeric>Claimed</Th>

@@ -1,13 +1,17 @@
 {
   "name": "glyph-miner",
   "private": true,
-  "version": "1.1.4",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cli": "ts-node cli-miner.ts"
   },
   "dependencies": {
     "@bitauth/libauth": "^3.0.0",
@@ -22,7 +26,7 @@
     "@noble/hashes": "^1.5.0",
     "@preact/signals-react": "^2.2.0",
     "@preact/signals-react-transform": "^0.4.0",
-    "@radiantblockchain/radiantjs": "github:radiantblockchain/radiantjs",
+    "@radiantblockchain/radiantjs": "github:Radiant-Core/radiantjs",
     "@scure/bip32": "^1.5.0",
     "@scure/bip39": "^1.4.0",
     "assert": "^2.1.0",
@@ -41,6 +45,9 @@
     "ws-electrumx-client": "^1.0.5"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^1.0.0",
+    "jsdom": "^23.0.0",
+    "vitest": "^1.0.0",
     "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
@@ -48,15 +55,17 @@
     "@typescript-eslint/parser": "^8.14.0",
     "@vitejs/plugin-react-swc": "^3.7.1",
     "@webgpu/types": "^0.1.51",
+    "chalk": "^4.1.2",
+    "commander": "^9.5.0",
     "eslint": "^9.15.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
+    "ts-node": "^10.9.1",
     "typescript": "^5.6.3",
     "vite": "^5.4.11"
   },
   "pnpm": {
     "patchedDependencies": {
-      "@radiantblockchain/radiantjs@1.9.4": "patches/@radiantblockchain__radiantjs@1.9.4.patch",
       "ws-electrumx-client@1.0.5": "patches/ws-electrumx-client@1.0.5.patch"
     }
   }

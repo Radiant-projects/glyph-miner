@@ -1,37 +1,126 @@
 # Glyph Miner
 
-Glyph Miner is a web based miner used to mine tokens that follow the Glyphs Protocol, using a layer 1 mining contract.
+Glyph Miner is a multi-algorithm cryptocurrency miner for tokens that follow the Glyphs Protocol, using layer 1 mining contracts.
 
-Requires a browser that supports WebGPU.
+> **V2 Hard Fork (Radiant Core 2.1, Block 410,000):** After activation, Blake3 and KangarooTwelve dMint tokens are validated **entirely on-chain** via OP_BLAKE3 and OP_K12 consensus opcodes. No indexer trust required — all proof-of-work is verified at the script level.
 
-A temporary wallet will be created that must be funded to pay transaction fees. Minted tokens can be sent to any address.
+## Mining Options
+
+### 🌐 Browser Extension (Recommended for GPU Mining)
+- **WebGPU Support**: Requires a browser with WebGPU capabilities (Chrome, Edge, Firefox with flags)
+- **GPU Mining**: Optimized for modern GPUs with multiple algorithms
+- **Easy Setup**: No installation required - just load the extension
+- **Real-time Monitoring**: Live hashrate and mining statistics
+- **Algorithm Support**: SHA256d, Blake3, KangarooTwelve, Argon2id-Light
+
+### 💻 CLI Miner (Advanced Users)
+- **Command Line Interface**: Full control over mining parameters
+- **CPU Mining**: RandomX-Light algorithm for CPU optimization
+- **Pool Mining**: Support for mining pools (coming soon)
+- **Server Deployment**: Ideal for dedicated mining rigs
+- **Scriptable**: Easy automation and monitoring
+
+## Quick Start
+
+### Browser Mining
+1. Install the Glyph Miner browser extension
+2. Connect your wallet (Photonic Wallet recommended)
+3. Select your mining algorithm and difficulty
+4. Start mining directly in your browser
+
+### CLI Mining
+```bash
+# Install dependencies
+pnpm install
+
+# List available algorithms
+npm run cli -- --list-algorithms
+
+# Start mining with Blake3
+npm run cli -- -a blake3 -w <your-wallet-address> -d 10000
+
+# Run performance benchmark
+npm run cli -- --benchmark
+```
+
+## Supported Algorithms
+
+| Algorithm | Type | Recommended For | Memory Usage |
+|-----------|------|-----------------|--------------|
+| SHA256d | GPU | Legacy compatibility | ~1 KB |
+| Blake3 | GPU | High performance mining | ~1 KB |
+| KangarooTwelve | GPU | CPU/GPU balance | ~200 B |
+| Argon2id-Light | GPU | Memory-hard leveling | 64-512 MB |
+| RandomX-Light | CPU | CPU-only mining | 256 KB |
+
+## Difficulty Adjustment
+
+Glyph Miner supports multiple Dynamic Difficulty Adjustment (DAA) modes:
+
+- **Fixed**: Static difficulty
+- **Epoch**: Difficulty changes per epoch
+- **ASERT**: Absolutely Scheduled Exponentially Rising Target
+- **LWMA**: Linear Weighted Moving Average
+- **Schedule**: Creator-defined difficulty schedule
+
+## Requirements
+
+### Browser Mining
+- Modern browser with WebGPU support
+- GPU with 4GB+ VRAM (for Argon2id-Light)
+- Photonic Wallet or compatible wallet
+
+### CLI Mining
+- Node.js 18+
+- 4GB+ RAM
+- Multi-core CPU recommended
+
+## Documentation
+
+- [CLI Mining Guide](docs/CLI_MINING.md) - Detailed CLI usage
+- [Algorithm Details](docs/ALGORITHMS.md) - Technical specifications
+- [DAA Configuration](docs/DAA_GUIDE.md) - Difficulty adjustment setup
+- [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues
 
 ## Roadmap
 
-- Replace temporary wallet with browser extension
-- Difficulty adjustments
+- [ ] Mining pool support
+- [ ] Mobile app development
+- [ ] Advanced monitoring dashboard
+- [ ] Cross-platform CLI builds
 
-## Getting Started
+## Development
 
-### Install
+### Install Dependencies
 
 ```bash
 pnpm install
 ```
 
-### Run development server
+### Run Development Server
 
 ```bash
 pnpm dev
 ```
 
-### Build
+### Build for Production
 
 ```bash
 pnpm build
 ```
 
 Build will be in `dist`. App can be served as a static site.
+
+### CLI Development
+
+```bash
+# Run CLI with TypeScript
+npx ts-node cli-miner.ts --help
+
+# Build CLI for production
+npm run build
+npm run cli -- --list-algorithms
+```
 
 ## Protocol
 

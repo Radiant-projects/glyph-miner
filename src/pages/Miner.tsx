@@ -105,16 +105,17 @@ export default function Miner() {
     <>
       <TopBar />
       <BottomBar />
-      <Box bg="bg.300" mt="56px">
+      <Box bg="bg.300" mt="56px" borderBottom="1px solid" borderBottomColor="whiteAlpha.50">
         <Container maxW="container.lg">
           <form onSubmit={onSubmit}>
-            <Flex gap={4} mx="auto" py={4}>
+            <Flex gap={3} mx="auto" py={4}>
               <IconButton
                 display={{ base: "flex", sm: "none" }}
                 as={Link}
                 to="/tokens"
                 icon={<Icon as={TbListDetails} />}
                 aria-label="Contract list"
+                variant="outline"
               />
               <Button
                 display={{ base: "none", sm: "flex" }}
@@ -122,6 +123,7 @@ export default function Miner() {
                 to="/tokens"
                 leftIcon={<Icon as={TbListDetails} />}
                 aria-label="Contract list"
+                variant="outline"
               >
                 Contracts
               </Button>
@@ -146,23 +148,28 @@ export default function Miner() {
         {gpuSupported && (
           <Flex
             bg="bg.100"
-            py={2}
+            py={3}
             px={4}
             mt={4}
             alignItems="center"
             justifyContent="space-between"
             gap={4}
+            borderRadius="xl"
+            border="1px solid"
+            borderColor="whiteAlpha.50"
           >
-            <Icon as={BsGpuCard} boxSize={6} color="gray.500" />
-            <Box flexGrow={1}>{gpu.value}</Box>
-            <Box>
+            <Icon as={BsGpuCard} boxSize={6} color="lightGreen.A200" />
+            <Box flexGrow={1} fontSize="sm" fontWeight="medium">{gpu.value}</Box>
+            <Box fontSize="sm" fontWeight="semibold" color="lightGreen.A200">
               <Hashrate />
             </Box>
             {miningEnabled.value ? (
               <IconButton
                 onClick={stopMining}
-                icon={<Icon as={FaStop} />}
+                icon={<Icon as={FaStop} color="red.400" />}
                 aria-label="Stop mining"
+                variant="ghost"
+                size="sm"
               />
             ) : (
               <IconButton
@@ -175,6 +182,8 @@ export default function Miner() {
                   />
                 }
                 aria-label="Start mining"
+                variant="ghost"
+                size="sm"
               />
             )}
           </Flex>
@@ -189,43 +198,66 @@ export default function Miner() {
                 <Flex
                   bg="bg.100"
                   p={4}
-                  mt={2}
+                  mt={3}
                   alignItems="center"
                   justifyContent="space-between"
                   gap={4}
                   flexWrap={{ base: "wrap", md: "initial" }}
+                  borderRadius="xl"
+                  border="1px solid"
+                  borderColor="whiteAlpha.50"
                 >
-                  <Flex flexGrow={1} wordBreak="break-all" alignItems="center">
-                    <Icon as={TbPick} boxSize={6} color="gray.500" mr={2} />
+                  <Flex flexGrow={1} wordBreak="break-all" alignItems="center" fontSize="sm">
+                    <Icon as={TbPick} boxSize={5} color="gray.400" mr={2} />
                     <Text>Mine to</Text>
-                    <Text bgColor="blackAlpha.400" as="span" px={1} ml={1}>
+                    <Text
+                      bgColor="whiteAlpha.100"
+                      as="span"
+                      px={2}
+                      py={0.5}
+                      ml={2}
+                      borderRadius="md"
+                      fontFamily="Source Code Pro Variable, monospace"
+                      fontSize="xs"
+                    >
                       {mineToAddress.value}
                     </Text>
                   </Flex>
                   <Box
-                    borderRight="2px"
-                    borderRightColor="whiteAlpha.400"
+                    borderRight="1px solid"
+                    borderRightColor="whiteAlpha.200"
                     pr={4}
+                    fontSize="sm"
                   >
                     Accepted:{" "}
-                    <b>
+                    <Text as="b" color="lightGreen.A200">
                       <Accepted />
-                    </b>
+                    </Text>
                   </Box>
-                  <Box>
+                  <Box fontSize="sm">
                     Rejected:{" "}
-                    <b>
+                    <Text as="b" color="red.400">
                       <Rejected />
-                    </b>
+                    </Text>
                   </Box>
                 </Flex>
-                <Box mt={2} mb={8} bgColor="bg.400" p={2} px={4}>
+                <Box
+                  mt={3}
+                  mb={8}
+                  bgColor="bg.400"
+                  p={3}
+                  px={4}
+                  borderRadius="xl"
+                  border="1px solid"
+                  borderColor="whiteAlpha.50"
+                  fontSize="sm"
+                >
                   <Messages />
                 </Box>
               </>
             ) : (
               <Flex direction="column" alignItems="center" my={24}>
-                <Text fontSize="x-large" mb={2}>
+                <Text fontSize="x-large" mb={4} fontWeight="medium">
                   Please configure the miner and fund the wallet
                 </Text>
                 <Button as={Link} leftIcon={<SettingsIcon />} to="/settings">
@@ -236,11 +268,11 @@ export default function Miner() {
           </>
         ) : (
           <Flex direction="column" alignItems="center" my={24}>
-            <Icon as={BsGpuCard} width={16} height={16} mb={4} />
-            <Text fontSize="x-large" mb={2}>
+            <Icon as={BsGpuCard} width={16} height={16} mb={4} color="gray.500" />
+            <Text fontSize="x-large" mb={2} fontWeight="medium">
               No GPU found
             </Text>
-            <Text textAlign="center">
+            <Text textAlign="center" color="gray.400">
               Please check your browser supports WebGPU
             </Text>
           </Flex>

@@ -11,6 +11,9 @@ export default function BottomBar() {
       width="100vw"
       bottom={0}
       display={{ base: "block", md: "none" }}
+      borderTop="1px solid"
+      borderTopColor="whiteAlpha.100"
+      backdropFilter="blur(12px)"
     >
       <Container
         maxW="container.lg"
@@ -22,11 +25,13 @@ export default function BottomBar() {
         <ConnectionStatus />
         <Box
           color="lightGreen.A200"
-          bgColor="blackAlpha.400"
-          px={2}
+          bgColor="whiteAlpha.100"
+          px={3}
           py={1}
           mr={2}
-          fontSize="medium"
+          fontSize="sm"
+          fontWeight="semibold"
+          borderRadius="lg"
         >
           Balance: <Balance />
         </Box>

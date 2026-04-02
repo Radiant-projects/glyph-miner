@@ -28,23 +28,40 @@ export const mineToAddress = signal("");
 export const mintMessage = signal("");
 export const hideMessages = signal(false);
 export const contractsUrl = signal("");
+// Use RXinDexer dMint API for contract discovery (with fallback to contractsUrl)
+export const useIndexerApi = signal(true);
+// Automatically mutate work entropy when full nonce-space is exhausted
+export const autoReseed = signal(true);
 
 let timer = 0;
-let done = false;
+let mintTimeShown = false;
 
 effect(() => {
-  if (done) return;
-  if (miningStatus.value === "mining") {
-    timer = window.setTimeout(() => {
-      if (contract.value) {
-        done = true;
-        addMessage({
-          type: "mint-time",
-          seconds: calcTimeToMine(contract.value.target, hashrate.value),
-        });
-      }
-    }, 10000);
-  } else {
+  const isMining = miningStatus.value === "mining";
+  const hasPositiveHashrate = hashrate.value > 0;
+
+  if (isMining && hasPositiveHashrate) {
+    if (!mintTimeShown && timer === 0) {
+      timer = window.setTimeout(() => {
+        timer = 0;
+        if (contract.value && miningStatus.value === "mining" && hashrate.value > 0) {
+          mintTimeShown = true;
+          addMessage({
+            type: "mint-time",
+            seconds: calcTimeToMine(contract.value.target, hashrate.value),
+          });
+        }
+      }, 10000);
+    }
+    return;
+  }
+
+  if (timer !== 0) {
     clearTimeout(timer);
+    timer = 0;
+  }
+
+  if (!isMining) {
+    mintTimeShown = false;
   }
 });

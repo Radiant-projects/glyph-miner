@@ -20,7 +20,6 @@ export function powPreimage(work: Work) {
 export const MAX_TARGET = 0x7fffffffffffffffn; // Doesn't include starting 00000000
 
 export function calcTimeToMine(target: bigint, hashesPerSecond: number) {
-  console.debug("Time to mine", target, hashesPerSecond);
   // 33 bits (4 bytes + 1 bit to make the next 64 bit number unsigned)
   return Math.round(
     (Number(MAX_TARGET / target) * Math.pow(2, 33)) / hashesPerSecond

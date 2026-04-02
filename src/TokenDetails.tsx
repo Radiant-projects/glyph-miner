@@ -6,7 +6,9 @@ import { PropsWithChildren } from "react";
 import { useSignals } from "@preact/signals-react/runtime";
 
 export function TokenImage({ type, file }: { type: string; file: Uint8Array }) {
-  const blob = new Blob([file], { type });
+  // Create a proper copy of the data to avoid SharedArrayBuffer issues
+  const data = new Uint8Array(file);
+  const blob = new Blob([data], { type });
   const src = URL.createObjectURL(blob);
   return <Image w={6} h={6} objectFit="contain" src={src} />;
 }
@@ -15,12 +17,15 @@ function TextRow({ children }: PropsWithChildren) {
   return (
     <Flex
       bg="bg.100"
-      mt={2}
+      mt={3}
       p={4}
       alignItems="center"
       justifyContent="center"
       minHeight="56px"
       textAlign="center"
+      borderRadius="xl"
+      border="1px solid"
+      borderColor="whiteAlpha.50"
     >
       {children}
     </Flex>
@@ -58,25 +63,28 @@ export default function TokenDetails() {
   return (
     <Flex
       bg="bg.100"
-      mt={2}
+      mt={3}
       p={4}
       alignItems="center"
       justifyContent="center"
       gap={4}
       flexWrap={{ base: "wrap", md: "initial" }}
+      borderRadius="xl"
+      border="1px solid"
+      borderColor="whiteAlpha.50"
     >
       {hasImage ? (
         <TokenImage type={type} file={file.b} />
       ) : (
         <Icon as={FaQuestionCircle} boxSize={6} color="gray.500" />
       )}
-      <Text as="div" flexGrow={1}>
+      <Text as="div" flexGrow={1} fontWeight="semibold">
         {ticker}
       </Text>
-      <Box borderRight="2px" borderRightColor="whiteAlpha.400" pr={4}>
+      <Box borderRight="1px solid" borderRightColor="whiteAlpha.200" pr={4}>
         Height: <b>{`${height} / ${maxHeight}`}</b>
       </Box>
-      <Box borderRight="2px" borderRightColor="whiteAlpha.400" pr={4}>
+      <Box borderRight="1px solid" borderRightColor="whiteAlpha.200" pr={4}>
         Reward:{" "}
         <b>
           {reward.toLocaleString()} {ticker.substring(0, 20)}

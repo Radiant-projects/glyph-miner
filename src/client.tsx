@@ -6,6 +6,7 @@ import { recoverFromError, subscribeToAddress } from "./blockchain";
 import { Transaction } from "@radiantblockchain/radiantjs";
 import localforage from "localforage";
 import { addMessage } from "./message";
+import { resetApiCache } from "./deployments";
 
 export enum ServerStatus {
   DISCONNECTED,
@@ -128,6 +129,9 @@ export async function connect(newServerList = false) {
     serverNum = 0;
   }
 
+  // Reset API cache when connecting to a new server
+  resetApiCache();
+
   await miner.stop();
 
   if (client?.isConnected()) {
@@ -196,5 +200,8 @@ export async function fetchRef(ref: string) {
 }
 
 export async function broadcast(hex: string) {
-  return await client.request("blockchain.transaction.broadcast", hex);
+  console.debug("Broadcasting transaction, length:", hex.length);
+  const result = await client.request("blockchain.transaction.broadcast", hex);
+  console.debug("Broadcast response:", result);
+  return result;
 }
